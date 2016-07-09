@@ -1,0 +1,85 @@
+#!/usr/bin/perl
+
+use warnings;
+use strict;
+
+
+print "Cuantas veces quieres jugar? \n";
+
+my $count = 1;
+my $times = <STDIN>;
+
+while ($count <= $times) {
+	
+	print "Victoria, un numero por favor: \n";
+
+my $me = <STDIN>;
+chomp $me;
+	print "Y si lo sumas con: \n";
+
+my $rng = int(rand(10));
+
+	print "$rng" . "...\n";
+
+	print "Cuanto es:\n" .  "$me + $rng = ";
+
+my $answer = <STDIN>;
+chomp $answer;
+
+my $theo = ($me + $rng);
+
+if ( "$theo" == $answer ) { 
+	print "Correcto!\n";
+	} else {
+	print "Buen intento, pero el numero es: " . "$theo \n";
+}
+
+if ( "$theo" != $answer ) {
+	my $file = 'repaso.txt';
+	open (my $fh, ">>", $file);
+	print($fh "\n" . "$me + $rng = $theo" . "\n" . "Victoria puso $answer \n");
+
+close($fh);
+}
+
+my $file = 'vic_answers.txt';
+open (my $fh, ">>", $file);
+
+print($fh "\n" . "$me + $rng = $theo" . "\n" . "Victoria puso $answer \n");
+
+
+close($fh);
+	$count++;
+}
+
+format STDOUT_TOP =
+@|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+"FIN DE: VICTORIA'S CALCULADOR"
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+.
+
+
+format =
+
+@|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+"*****REPASEMOS*****"
+@|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+"Victoria, repasemos estas respuestas:"
+.
+
+write;
+
+my $file  = 'repaso.txt';
+open (my $fh, "<", $file);
+
+
+while (my $row = <$fh>)
+{
+	chomp ($row);
+	print "$row \n";
+}
+
+close($fh);
+
+unlink('repaso.txt');  # This throws the repaso.txt away to avoid accumulation in the log
